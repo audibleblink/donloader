@@ -7,9 +7,9 @@ import (
 
 func main() {
 	payloadPath := flag.String("payload", "", "EXE/DLL/.NET payload to convert into donut shellcode")
-	template := flag.String("tpl", "sc_ct",
+	template := flag.String("tpl", "bp_ct",
 		"Loader template to use")
-	useGarble := flag.Bool("g", false,
+	useGarble := flag.Bool("g", true,
 		"Use garble to compile and obfuscate loader.")
 	upxPack := flag.Bool("upx", false,
 		"Pack final binary with upx.")
@@ -19,9 +19,9 @@ func main() {
 		"donut: Exit method 1=exit thread, 2=exit process")
 	bypass := flag.Int("bypass", 3,
 		"donut: Bypass AMSI/WLDP 1=skip, 2=abort on fail, 3=continue on fail")
-	compression := flag.Int("compress", 1,
+	compression := flag.Int("compress", 2,
 		"donut: Compress payload 1=disable, 2=LZNT1, 3=Xpress, 4=Xpress Huffman")
-	entropy := flag.Int("entropy", 1,
+	entropy := flag.Int("entropy", 3,
 		"donut: Entropy 1=disable, 2=use random names, 3=random names + symmetric encryption")
 	parameters := flag.String("arg", "",
 		"Arguments passed to donut payload")

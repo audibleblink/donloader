@@ -28,11 +28,11 @@ func goBuild(srcPath string) error {
 	cmd := exec.Command("go", args...)
 	cmd.Dir = cwd
 	cmd.Env = os.Environ()
-	cmd.Env = append(cmd.Env, []string{
+	cmd.Env = append(cmd.Env,
 		fmt.Sprintf("GOOS=%s", GOOS),
 		fmt.Sprintf("GOARCH=%s", GOARCH),
 		fmt.Sprintf("GO111MODULE=%s", GO111MODULE),
-	}...) //weird hacks ¯\_(ツ)_/¯
+	)
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &stdout
@@ -40,7 +40,7 @@ func goBuild(srcPath string) error {
 
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(stderr.String())
+		fmt.Fprintln(os.Stderr, stderr.String())
 		return err
 	}
 	return nil
@@ -53,8 +53,6 @@ func garbleBuild(srcPath string) error {
 		"-literals",
 		"-tiny",
 		"build",
-		"-ldflags",
-		ldFlags,
 		srcPath,
 	}
 	cwd, err := os.Getwd()
@@ -64,11 +62,11 @@ func garbleBuild(srcPath string) error {
 	cmd := exec.Command("garble", args...)
 	cmd.Dir = cwd
 	cmd.Env = os.Environ()
-	cmd.Env = append(cmd.Env, []string{
+	cmd.Env = append(cmd.Env,
 		fmt.Sprintf("GOOS=%s", GOOS),
 		fmt.Sprintf("GOARCH=%s", GOARCH),
 		fmt.Sprintf("GO111MODULE=%s", GO111MODULE),
-	}...)
+	)
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &stdout
@@ -76,7 +74,7 @@ func garbleBuild(srcPath string) error {
 
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(stderr.String())
+		fmt.Fprintln(os.Stderr, stderr.String())
 		return err
 	}
 	return nil
@@ -101,7 +99,7 @@ func upx(binPath string) error {
 
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(stderr.String())
+		fmt.Fprintln(os.Stderr, stderr.String())
 		return err
 	}
 	return nil

